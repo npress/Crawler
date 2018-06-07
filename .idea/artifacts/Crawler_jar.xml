@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Crawler:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Crawler_jar</output-path>
+    <root id="archive" name="Crawler.jar">
+      <element id="module-output" name="Crawler" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jsoup-1.11.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-io-2.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/json-20180130.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
