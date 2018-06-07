@@ -1,7 +1,7 @@
 # Main class:
 Crawler.java
-I created a jar that you can run for your convenience at the top-level of the project directory.
-`Nemas-iMac-3:~ npress$ java -jar /Users/npress/IdeaProjects/Crawler/Crawler.jar`
+<br>I created a jar that you can run for your convenience at the top-level of the project directory.
+<br>`Nemas-iMac-3:~ npress$ java -jar /Users/npress/IdeaProjects/Crawler/Crawler.jar`
 
 # Assumptions:
 - A response with status code 200 is successful.  Any other status code is
