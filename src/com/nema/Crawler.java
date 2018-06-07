@@ -7,7 +7,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import javax.net.ssl.HttpsURLConnection;
-
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -22,6 +21,10 @@ public class Crawler {
     protected long numRequests;
     protected long numFailed;
     protected long numSuccess;
+    /*
+    Assumes that a successful connection to the page has a response status code 200.  If the response is
+    anything else, the status code is printed in the console.
+     */
     public boolean crawlPage(String strUrl)
     {
         BufferedReader br = null;
@@ -31,7 +34,7 @@ public class Crawler {
             URL url = new URL(strUrl);
             connection = (HttpsURLConnection)url.openConnection();
             numRequests++;
-            if(connection.getResponseCode() == 200) // 200 is the HTTP OK status code
+            if(connection.getResponseCode() == 200)
             {
                 System.out.println("Successfully connected to " + url);
             }
@@ -73,7 +76,7 @@ public class Crawler {
         }
         catch(IOException ioe)
         {
-            System.out.println("We were not successful in our HTTP request");
+            System.out.println("The HTTP request threw an exception: "+strUrl);
             return false;
         }
         finally{
@@ -89,9 +92,13 @@ public class Crawler {
         }
     }
 
+    /*
+    Crawls the links included in the remote URL (a json page), and all of their links provided
+    they haven't already been included.  Will not return to pages already checked or placed
+    on the queue to be visited in the future.
+     */
     public void crawl(){
         boolean successful;
-        //iterator = linksToVisit.listIterator();
         while(visited.size()< MAX_PAGES_TO_CRAWL && !linksToVisit.isEmpty()) {
                 String nextURL = linksToVisit.remove(0);
                 if(!visited.contains(nextURL)){
@@ -111,7 +118,11 @@ public class Crawler {
         {
             System.out.println("Exceeded maximum number of pages to crawl");
         }
-        System.out.println("total number of http requests performed: "+numRequests+"\n" +
+        System.out.println(
+                "**********************************************\n"+
+                "STATISTICS\n"+
+                "**********************************************\n"+
+                "total number of http requests performed: "+numRequests+"\n" +
                 "total number of successful requests: "+ numSuccess +"\n" +
                 "total number of failed requests: "+ numFailed +"\n");
 
@@ -131,7 +142,10 @@ public class Crawler {
             e.printStackTrace();
         }
     }
-
+    /*
+    The user has the option to specify the maximum number of connections made; otherwise a default
+    of 10,000 is used.
+     */
     public static void main(String[] args) {
         if(args.length>0)
             MAX_PAGES_TO_CRAWL = Long.parseLong(args[0]);
